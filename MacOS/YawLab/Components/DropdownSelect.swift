@@ -9,22 +9,22 @@ import SwiftUI
 
 struct DropdownSelect: View {
     let options: [String]
-    let emptyText: String?
-    @State var selectedOption: String? = nil
+    @Binding var text: String
+    var didSelectOption: (String) -> Void
     
     var body: some View {
         Menu {
             ForEach(options.indices, id: \.self) { (index: Int) in
                 Button {
                     print("Option selected: \(options[index])")
-                    selectedOption = options[index]
+                    didSelectOption(options[index])
                 } label: {
                     Text(options[index])
                 }
             }
         } label: {
-            Label(selectedOption ?? "Select an option", systemImage: "chevron.down")
-                .padding()
+            Label(text, systemImage: "chevron.down")
+                .padding(8)
                 .background(Color.black.opacity(0.1))
                 .cornerRadius(8)
         }
@@ -46,7 +46,9 @@ extension DropdownSelect {
             "Norris",
             "Piastri"
         ],
-        emptyText: "Select an option",
-        selectedOption: nil
+        text: .constant("Select an option"),
+        didSelectOption: {
+            print("Option selected: \($0)")
+        }
     )
 }

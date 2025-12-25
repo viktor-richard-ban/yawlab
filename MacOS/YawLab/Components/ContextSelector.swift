@@ -12,26 +12,49 @@ struct ContextSelector: View {
     let events: [String] = ["Abu Dhabi"]
     let sessions: [String] = ["FP1", "FP2", "FP3", "Q", "R"]
     let drivers: [String] = ["Lando Norris"]
+    @Binding var context: Context
     
     var body: some View {
         VStack {
             DropdownSelect(
                 options: years,
-                emptyText: "Select a year"
+                text: Binding(
+                    get: { context.year ?? "Select a year" },
+                    set: { context.year = $0 }
+                ),
+                didSelectOption: { [context] in
+                    context.year = $0
+                }
             )
-            HStack {
-                DropdownSelect(
-                    options: events,
-                    emptyText: "Select an event"
-                )
-                DropdownSelect(
-                    options: sessions,
-                    emptyText: "Select a session"
-                )
-            }
+            DropdownSelect(
+                options: events,
+                text: Binding(
+                    get: { context.event ?? "Select an event" },
+                    set: { context.event = $0 }
+                ),
+                didSelectOption: { [context] in
+                    context.event = $0
+                }
+            )
+            DropdownSelect(
+                options: sessions,
+                text: Binding(
+                    get: { context.session ?? "Select a session" },
+                    set: { context.session = $0 }
+                ),
+                didSelectOption: { [context] in
+                    context.session = $0
+                }
+            )
             DropdownSelect(
                 options: drivers,
-                emptyText: "Select a driver"
+                text: Binding(
+                    get: { context.driver ?? "Select a driver" },
+                    set: { context.driver = $0 }
+                ),
+                didSelectOption: { [context] in
+                    context.driver = $0
+                }
             )
         }
     }
