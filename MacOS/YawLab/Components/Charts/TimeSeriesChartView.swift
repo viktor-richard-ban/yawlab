@@ -38,6 +38,8 @@ private struct TimeSeriesChart: View {
     let maxTime: Double
     let minValue: Double
     let maxValue: Double
+    
+    @Environment(\.selectedTime) var selectedTime: TimeSelection
 
     var body: some View {
         Chart {
@@ -46,6 +48,15 @@ private struct TimeSeriesChart: View {
                 xLabel: xLabel,
                 yLabel: yLabel
             )
+            if let selectedTime = selectedTime.time {
+                RuleMark(x: .value("Time", selectedTime))
+                    .foregroundStyle(.red)
+                    .annotation {
+                        if let telemetryPoint = points.first(where: { $0.time == selectedTime}) {
+                            Text("\(telemetryPoint.value)")
+                        }
+                    }
+            }
         }
         .chartXAxisLabel(xLabel)
         .chartYAxisLabel(yLabel)
@@ -59,6 +70,17 @@ private struct TimeSeriesChart: View {
                     }
                 }
             }
+        }
+        .chartOverlay { proxy in
+            EmptyView()
+                .onContinuousHover(perform: { phase in
+                    switch phase {
+                    case .active(let location):
+                        selectedTime.time = proxy.value(atX: location.x, as: Double.self)!.closestTime(in: points.map(\.time))
+                    case .ended:
+                        selectedTime.time = nil
+                    }
+                })
         }
     }
 }

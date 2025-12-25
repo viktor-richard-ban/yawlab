@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var context = Context()
+    @Environment(\.selectedTime) var selectedTime: TimeSelection
     
     var body: some View {
         NavigationSplitView {
@@ -29,6 +30,7 @@ struct ContentView: View {
                 Spacer()
             }
         }
+        .environment(selectedTime)
     }
     
     @ViewBuilder
