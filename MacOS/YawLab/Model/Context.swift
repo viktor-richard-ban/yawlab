@@ -11,6 +11,8 @@ import Foundation
 class Context {
     var year: String?
     var event: String?
+    var circuit: Circuit?
     var session: String?
     var driver: String?
+    var lap: Lap?
 }

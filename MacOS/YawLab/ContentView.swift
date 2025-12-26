@@ -11,6 +11,19 @@ struct ContentView: View {
     @State var context = Context()
     @Environment(\.selectedTime) var selectedTime: TimeSelection
     
+    init() {
+        #if DEBUG
+        self.context.lap = Lap(
+            lapTime: 86.725,
+            times: sampleTimes,
+            speeds: sampleSpeeds,
+            throttles: sampleThrottles,
+            brakes: sampleBrakes,
+            positions: samplePositionsPoints
+        )
+        #endif
+    }
+    
     var body: some View {
         NavigationSplitView {
             VStack {
@@ -22,25 +35,30 @@ struct ContentView: View {
                 Text("Selected context: Year: **\(context.year ?? "null")** - Event: **\(context.event ?? "null")** - Session: **\(context.session ?? "null")** - Driver: **\(context.driver ?? "null")**")
                 
                 HStack {
-                    TrackView(points: circuitPoints)
-                        .frame(width: 200, height: 200)
+                    if let circuitPoints = context.lap?.positionsTelemetryPoints {
+                        TrackView(points: circuitPoints)
+                            .frame(width: 200, height: 200)
+                    }
                     
                     if let selectedTime = selectedTime.time,
-                       let index = sampleTimes.firstIndex(of: selectedTime) {
-                        let degrees = sampleDirections[index].value * 180 / .pi
+                       let times = context.lap?.times,
+                       let index = times.firstIndex(of: selectedTime),
+                       let lap = context.lap {
+                        let degrees = lap.directionTelemetryPoints[index].value * 180 / .pi
                         Image(systemName: "arrow.up")
                             .font(.system(size: 48, weight: .bold))
                             .rotationEffect(.degrees(degrees))
                     }
                 }
                 
-                timeSeriesChartView(with: sampleSpeedPoints, yLabel: "Speed", lapTime: 86.725)
+                let lapTime = context.lap?.lapTime ?? 0.0
+                timeSeriesChartView(with: context.lap?.speedTelemetryPoints ?? [], yLabel: "Speed", lapTime: lapTime)
                 
-                timeSeriesChartView(with: sampleThrottlePoints, yLabel: "Throttle", lapTime: 86.725)
+                timeSeriesChartView(with: context.lap?.throttleTelemetryPoints ?? [], yLabel: "Throttle", lapTime: lapTime)
                 
-                timeSeriesChartView(with: sampleBrakePoints, yLabel: "Brake", lapTime: 86.725)
+                timeSeriesChartView(with: context.lap?.brakeTelemetryPoints ?? [], yLabel: "Brake", lapTime: lapTime)
                 
-                timeSeriesChartView(with: sampleDirections, yLabel: "Direction (0 is the value calculated from the first 2 points)", lapTime: 86.725)
+                timeSeriesChartView(with: context.lap?.directionTelemetryPoints ?? [], yLabel: "Direction (0 is the value calculated from the first 2 points)", lapTime: lapTime)
                 
                 Spacer()
             }

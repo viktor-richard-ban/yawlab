@@ -9,7 +9,10 @@ import SwiftUI
 import CoreGraphics
 
 struct TrackView: View {
-    let points: [CGPoint]
+    let points: [TelemetryPoint<CGPoint>]
+    var pointValues: [CGPoint] {
+        points.map { $0.value }
+    }
     
     @Environment(\.selectedTime) var selectedTime: TimeSelection
 
@@ -17,11 +20,11 @@ struct TrackView: View {
         GeometryReader { geo in
             ZStack {
                 // Track
-                makeTrackPath(points: points, in: CGRect(origin: .zero, size: geo.size))
+                makeTrackPath(points: pointValues, in: CGRect(origin: .zero, size: geo.size))
                     .stroke(.primary, style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
                 
                 if let selectedTime = selectedTime.time,
-                   let telemetryPoint = samplePositionPoints.first(where: { $0.time == selectedTime }) {
+                   let telemetryPoint = points.first(where: { $0.time == selectedTime }) {
                     // Car
                     Circle()
                         .fill(Color.red)
@@ -29,7 +32,7 @@ struct TrackView: View {
                         .position(
                             mapPoint(
                                 telemetryPoint.value,
-                                points: points,
+                                points: pointValues,
                                 in: CGRect(origin: .zero, size: geo.size)
                             )
                         )
