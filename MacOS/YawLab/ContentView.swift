@@ -19,7 +19,8 @@ struct ContentView: View {
             speeds: sampleSpeeds,
             throttles: sampleThrottles,
             brakes: sampleBrakes,
-            positions: samplePositionsPoints
+            positions: samplePositionsPoints,
+            wind: 180
         )
         #endif
     }
@@ -61,7 +62,7 @@ struct ContentView: View {
                     
                     timeSeriesChartView(with: context.lap?.directionTelemetryPoints ?? [], yLabel: "Direction (0 is the value calculated from the first 2 points)", lapTime: lapTime)
                     
-                    DerivedDataView()
+                    DerivedDataView(context: $context)
                         .padding(.top, 32)
                         .padding(.horizontal, 16)
                 }

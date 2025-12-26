@@ -8,6 +8,8 @@
 import Foundation
 
 extension Array where Element == CGPoint {
+    /// Calculates the heading of the car from the current and the previous point
+    /// Return: Directions in radians
     func directions() -> [Double] {
         guard !self.isEmpty else { return [] }
 

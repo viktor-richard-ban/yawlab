@@ -43,4 +43,8 @@ extension Double {
     ) -> Double? {
         times.min { abs($0 - self) < abs($1 - self) }
     }
+    
+    func radiansToDegrees() -> Double {
+        return self * 180.0 / .pi
+    }
 }
