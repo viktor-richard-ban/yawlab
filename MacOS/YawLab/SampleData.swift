@@ -386,9 +386,15 @@ let sampleBrakePoints: [TelemetryPoint] = {
 }()
 
 let samplePositionPoints: [TelemetryPoint<CGPoint>] = {
-    print(sampleTimes.count)
-    print(sampleCarPoints.count)
     return (0..<sampleTimes.count).map {
         return TelemetryPoint<CGPoint>(time: sampleTimes[$0], value: sampleCarPoints[$0])
+    }
+}()
+
+let sampleDirections: [TelemetryPoint<Double>] = {
+    let points: [CGPoint] = samplePositionPoints.map { $0.value }
+    let directions = points.directions()
+    return (0..<sampleTimes.count).map {
+        return TelemetryPoint<Double>(time: sampleTimes[$0], value: directions[$0])
     }
 }()

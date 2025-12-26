@@ -30,6 +30,8 @@ struct ContentView: View {
                 
                 timeSeriesChartView(with: sampleBrakePoints, yLabel: "Brake", lapTime: 86.725)
                 
+                timeSeriesChartView(with: sampleDirections, yLabel: "Direction (0 is the value calculated from the first 2 points)", lapTime: 86.725)
+                
                 Spacer()
             }
         }
