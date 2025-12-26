@@ -21,8 +21,18 @@ struct ContentView: View {
             VStack {
                 Text("Selected context: Year: **\(context.year ?? "null")** - Event: **\(context.event ?? "null")** - Session: **\(context.session ?? "null")** - Driver: **\(context.driver ?? "null")**")
                 
-                TrackView(points: circuitPoints)
-                    .frame(width: 200, height: 200)
+                HStack {
+                    TrackView(points: circuitPoints)
+                        .frame(width: 200, height: 200)
+                    
+                    if let selectedTime = selectedTime.time,
+                       let index = sampleTimes.firstIndex(of: selectedTime) {
+                        let degrees = sampleDirections[index].value * 180 / .pi
+                        Image(systemName: "arrow.up")
+                            .font(.system(size: 48, weight: .bold))
+                            .rotationEffect(.degrees(degrees))
+                    }
+                }
                 
                 timeSeriesChartView(with: sampleSpeedPoints, yLabel: "Speed", lapTime: 86.725)
                 

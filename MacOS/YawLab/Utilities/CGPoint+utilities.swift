@@ -12,14 +12,18 @@ extension Array where Element == CGPoint {
         guard !self.isEmpty else { return [] }
 
         var directions: [Double] = []
-        for i in 1..<self.count {
-            let dx = self[i].x - self[i - 1].x
-            let dy = self[i].y - self[i - 1].y
-            directions.append(atan2(dy, dx))
+        func direction(point: CGPoint, prevPoint: CGPoint) -> Double {
+            let dx = point.x - prevPoint.x
+            let dy = point.y - prevPoint.y
+            return atan2(-dy, dx) - .pi / 2 + .pi
         }
-        let dx = self[self.count - 1].x - self[0].x
-        let dy = self[self.count - 1].y - self[0].y
-        directions.append(atan2(dy, dx))
+        
+        for i in 1..<self.count {
+            let direction = direction(point: self[i], prevPoint: self[i - 1])
+            directions.append(direction)
+        }
+        let direction = direction(point: self[0], prevPoint: self[self.count - 1])
+        directions.append(direction)
         return directions
     }
 }
