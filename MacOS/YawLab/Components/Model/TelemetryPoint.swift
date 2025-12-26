@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct TelemetryPoint: Identifiable {
+struct TelemetryPoint<T>: Identifiable {
     let id = UUID()
     let time: Double   // seconds
-    let value: Double  // e.g: speed in km/h, throttle in %
+    let value: T  // e.g: speed in km/h, throttle in %
 }

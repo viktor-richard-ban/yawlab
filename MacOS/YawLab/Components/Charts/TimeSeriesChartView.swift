@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct TimeSeriesChartView: View {
-    let points: [TelemetryPoint]
+    let points: [TelemetryPoint<Double>]
     let xLabel: String = "Time (s)"
     let yLabel: String
     let lapTime: Double
@@ -32,7 +32,7 @@ struct TimeSeriesChartView: View {
 
 // MARK: - Subviews
 private struct TimeSeriesChart: View {
-    let points: [TelemetryPoint]
+    let points: [TelemetryPoint<Double>]
     let xLabel: String
     let yLabel: String
     let maxTime: Double
@@ -86,7 +86,7 @@ private struct TimeSeriesChart: View {
 }
 
 private struct LineSeries: ChartContent {
-    let points: [TelemetryPoint]
+    let points: [TelemetryPoint<Double>]
     let xLabel: String
     let yLabel: String
 
