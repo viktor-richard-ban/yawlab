@@ -27,10 +27,8 @@ struct DerivedDataView: View {
                 let wind = context.lap?.wind ?? 0.0
                 let yaw = context.lap?.yawTelemetryPoints.first(where: { $0.time == selectedTime.time })?.value ?? 0.0
                 
-                TrackDataTile(title: "Wind Direction", value: "\(wind)", unit: "degrees")
-                    .frame(width: 200)
-                TrackDataTile(title: "Yaw", value: String(format: "%.2f", yaw), unit: "degrees", info: "yaw = airflow direction − car direction\nNormalized to 0..180°")
-                    .frame(width: 200)
+                DataView(title: "Wind Direction", value: "\(wind)", unit: "degrees")
+                DataView(title: "Yaw", value: String(format: "%.2f", yaw), unit: "degrees", info: "yaw = airflow direction − car direction\nNormalized to 0..180°")
             }
         }
     }

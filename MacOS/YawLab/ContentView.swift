@@ -23,10 +23,18 @@ struct ContentView: View {
                 Spacer()
             }
         } detail: {
-            if let lap = context.lap, isContextAvailable {
+            if let lap = context.lap, isContextAvailable,
+               let run = context.run {
                 ScrollView {
                     VStack {
                         Text(context.run!.name)
+                        
+                        HStack {
+                            DataView(title: "Run", value: run.name, unit: "", info: run.source.notes)
+                            DataView(title: "Time", value: selectedTime.time?.elapsedTime, unit: "")
+                            Spacer()
+                        }
+                        .padding(8)
                         
                         let lapTime = lap.lapTime
                         timeSeriesChartView(with: lap.speedTelemetryPoints, yLabel: "Speed", lapTime: lapTime)

@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct TrackDataTile: View {
+struct DataView: View {
     let title: String
-    let value: String
+    let value: String?
     let unit: String
     /// Extra information shown in a popup when tapping the info button.
     let info: String?
     @State private var showInfo = false
     
-    init(title: String, value: String, unit: String, info: String? = nil) {
+    init(title: String, value: String?, unit: String, info: String? = nil) {
         self.title = title
         self.value = value
         self.unit = unit
@@ -35,7 +35,6 @@ struct TrackDataTile: View {
                     .foregroundStyle(.secondary)
                 
                 Spacer()
-                
                 
                 if let info {
                     Button {
@@ -59,9 +58,11 @@ struct TrackDataTile: View {
                 }
             }
 
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text(value)
+            HStack(spacing: 6) {
+                Text(value ?? "NaN")
+                    .lineLimit(1)
                     .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .minimumScaleFactor(0.3)
                     .monospacedDigit()
 
                 Text(unit)
@@ -71,6 +72,7 @@ struct TrackDataTile: View {
                 Spacer()
             }
         }
+        .frame(width: 200)
         .padding(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
