@@ -10,11 +10,6 @@ import SwiftUI
 @Observable
 class TimeSelection {
     var time: Double? // in seconds
-    var selections: [(String, Double)] = []
-    
-    init(time: Double? = nil) {
-        self.time = time
-    }
 }
 
 struct TimeSelectionKey: EnvironmentKey {

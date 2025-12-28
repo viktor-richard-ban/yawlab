@@ -8,23 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var context = Context()
-    @State var isShowingInspector = false
+    @State var context: Context
+    @State private var isShowingInspector = false
     @Environment(\.selectedTime) var selectedTime: TimeSelection
     
-    init() {
-        #if DEBUG
-        self.context.lap = Lap(
-            lapTime: 86.725,
-            times: sampleTimes,
-            speeds: sampleSpeeds,
-            throttles: sampleThrottles,
-            brakes: sampleBrakes,
-            positions: samplePositionsPoints,
-            wind: 180
-        )
-        self.context.run = try? JSONReader().loadFromBundle(AeroReferencePack.self, resource: "AhmedDrivAer_ReferencePack")
-        #endif
+    var isContextAvailable: Bool {
+        return context.lap != nil
     }
     
     var body: some View {
@@ -34,32 +23,38 @@ struct ContentView: View {
                 Spacer()
             }
         } detail: {
-            ScrollView {
-                VStack {
-                    Text(context.run!.name)
-                    
-                    let lapTime = context.lap?.lapTime ?? 0.0
-                    timeSeriesChartView(with: context.lap?.speedTelemetryPoints ?? [], yLabel: "Speed", lapTime: lapTime)
-                    timeSeriesChartView(with: context.lap?.throttleTelemetryPoints ?? [], yLabel: "Throttle", lapTime: lapTime)
-                    timeSeriesChartView(with: context.lap?.brakeTelemetryPoints ?? [], yLabel: "Brake", lapTime: lapTime)
-                    
-                    DerivedDataView(context: $context)
-                        .padding(.top, 32)
-                        .padding(.horizontal, 16)
+            if let lap = context.lap, isContextAvailable {
+                ScrollView {
+                    VStack {
+                        Text(context.run!.name)
+                        
+                        let lapTime = lap.lapTime
+                        timeSeriesChartView(with: lap.speedTelemetryPoints, yLabel: "Speed", lapTime: lapTime)
+                        timeSeriesChartView(with: lap.throttleTelemetryPoints, yLabel: "Throttle", lapTime: lapTime)
+                        timeSeriesChartView(with: lap.brakeTelemetryPoints, yLabel: "Brake", lapTime: lapTime)
+                        
+                        DerivedDataView(context: $context)
+                            .padding(.top, 32)
+                            .padding(.horizontal, 16)
+                    }
                 }
+            } else {
+                contentUnavailableView()
             }
         }
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    isShowingInspector.toggle()
-                } label: {
-                    HStack {
-                        Image(systemName: "chart.bar")
-                        Text("Track View")
+            if isContextAvailable {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        isShowingInspector.toggle()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chart.bar")
+                            Text("Track View")
+                        }
                     }
+                    .keyboardShortcut("T")
                 }
-                .keyboardShortcut("T")
             }
         }
         .inspector(isPresented: $isShowingInspector, content: {
@@ -76,5 +71,14 @@ struct ContentView: View {
         TimeSeriesChartView(points: points, yLabel: yLabel, lapTime: lapTime)
             .frame(height: 150)
             .padding(.horizontal, 16)
+    }
+    
+    @ViewBuilder
+    private func contentUnavailableView() -> some View {
+        ContentUnavailableView(
+            "Select data to begin analysis",
+            systemImage: "chart.line.uptrend.xyaxis",
+            description: Text("Select an event, session, and lap to load telemetry and aerodynamic analysis.")
+        )
     }
 }
