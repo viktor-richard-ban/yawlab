@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var context = Context()
+    @State var isShowingInspector = false
     @Environment(\.selectedTime) var selectedTime: TimeSelection
     
     init() {
@@ -34,25 +35,6 @@ struct ContentView: View {
         } detail: {
             ScrollView {
                 VStack {
-                    Text("Selected context: Year: **\(context.year ?? "null")** - Event: **\(context.event ?? "null")** - Session: **\(context.session ?? "null")** - Driver: **\(context.driver ?? "null")**")
-                    
-                    HStack {
-                        if let circuitPoints = context.lap?.positionsTelemetryPoints {
-                            TrackView(points: circuitPoints)
-                                .frame(width: 200, height: 200)
-                        }
-                        
-                        if let selectedTime = selectedTime.time,
-                           let times = context.lap?.times,
-                           let index = times.firstIndex(of: selectedTime),
-                           let lap = context.lap {
-                            let degrees = lap.directionTelemetryPoints[index].value * 180 / .pi
-                            Image(systemName: "arrow.up")
-                                .font(.system(size: 48, weight: .bold))
-                                .rotationEffect(.degrees(degrees))
-                        }
-                    }
-                    
                     let lapTime = context.lap?.lapTime ?? 0.0
                     timeSeriesChartView(with: context.lap?.speedTelemetryPoints ?? [], yLabel: "Speed", lapTime: lapTime)
                     
@@ -68,6 +50,25 @@ struct ContentView: View {
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isShowingInspector.toggle()
+                } label: {
+                    HStack {
+                        Image(systemName: "chart.bar")
+                        Text("Track View")
+                    }
+                }
+                .keyboardShortcut("T")
+            }
+        }
+        .inspector(isPresented: $isShowingInspector, content: {
+            VStack {
+                TrackViewWithDetails(context: $context)
+                Spacer()
+            }
+        })
         .environment(selectedTime)
     }
     
@@ -77,8 +78,4 @@ struct ContentView: View {
             .frame(height: 150)
             .padding(.horizontal, 16)
     }
-}
-
-#Preview {
-    ContentView()
 }
