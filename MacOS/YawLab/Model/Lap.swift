@@ -50,14 +50,4 @@ struct Lap {
             return TelemetryPoint<Double>(time: times[$0], value: directions[$0])
         }
     }
-
-    var yawTelemetryPoints: [TelemetryPoint<Double>] {
-        let directionsInRad = positions.directions()
-        return (0..<times.count).map {
-            let raw = wind - directionsInRad[$0].radiansToDegrees() + directionsInRad[0].radiansToDegrees() + 180.0
-            let wrapped = raw.truncatingRemainder(dividingBy: 360)
-            let normalised = wrapped >= 0 ? wrapped : wrapped + 360
-            return TelemetryPoint<Double>(time: times[$0], value: normalised - 180)
-        }
-    }
 }

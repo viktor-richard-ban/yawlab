@@ -24,13 +24,11 @@ struct ContentView: View {
             }
         } detail: {
             if let lap = context.lap, isContextAvailable,
-               let run = context.run {
+               let config = context.config {
                 ScrollView {
                     VStack {
-                        Text(context.run!.name)
-                        
                         HStack {
-                            DataView(title: "Run", value: run.name, unit: "", info: run.source.notes)
+                            DataView(title: "Config", value: config.displayName, unit: "")
                             DataView(title: "Time", value: selectedTime.time?.elapsedTime, unit: "")
                             Spacer()
                         }

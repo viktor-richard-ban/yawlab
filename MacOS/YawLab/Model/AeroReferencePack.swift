@@ -16,7 +16,7 @@ import Foundation
 ///
 /// This model is intentionally simplified and intended for
 /// **scenario and sensitivity analysis**, not absolute prediction.
-public struct AeroReferencePack: Decodable {
+struct AeroReferencePack: Decodable {
 
     // MARK: - Metadata
 
@@ -24,33 +24,33 @@ public struct AeroReferencePack: Decodable {
     ///
     /// Used for traceability and reproducibility when comparing results
     /// across different model revisions.
-    public let id: String
+    let id: String
 
     /// Human-readable name of the reference pack.
-    public let name: String
+    let name: String
 
     /// Source metadata describing where this reference data originates.
-    public let source: Source
+     let source: Source
 
     /// Units associated with all physical quantities used in this pack.
     ///
     /// Units are explicitly defined to avoid ambiguity when interpreting
     /// coefficients and forces.
-    public let units: Units
+     let units: Units
 
     /// Global default physical constants used by the aero model.
-    public let defaults: Defaults
+     let defaults: Defaults
 
     /// List of aerodynamic configurations supported by this pack.
     ///
     /// Each configuration represents a distinct aerodynamic setup
     /// (e.g. baseline, low-drag, high-downforce).
-    public let configs: [Config]
+     let configs: [Config]
 }
 
 // MARK: - Source Metadata
 
-public extension AeroReferencePack {
+ extension AeroReferencePack {
 
     /// Describes the provenance and assumptions of the aerodynamic model.
     struct Source: Decodable {
@@ -58,17 +58,17 @@ public extension AeroReferencePack {
         /// Name or description of the benchmark dataset.
         ///
         /// Example: "Ahmed Body / DrivAer benchmark references".
-        public let dataset: String
+         let dataset: String
 
         /// Free-form notes describing assumptions, simplifications,
         /// or intended usage of the reference data.
-        public let notes: String
+         let notes: String
     }
 }
 
 // MARK: - Units
 
-public extension AeroReferencePack {
+ extension AeroReferencePack {
 
     /// Defines the units for physical quantities used by the reference pack.
     ///
@@ -79,23 +79,23 @@ public extension AeroReferencePack {
         /// Unit used for aerodynamic yaw angle.
         ///
         /// Expected value: `"deg"` (degrees).
-        public let yaw: String
+         let yaw: String
 
         /// Unit used for aerodynamic reference area.
         ///
         /// Expected value: `"m2"` (square meters).
-        public let area: String
+         let area: String
 
         /// Unit used for air density.
         ///
         /// Expected value: `"kg/m3"`.
-        public let rho: String
+         let rho: String
     }
 }
 
 // MARK: - Defaults
 
-public extension AeroReferencePack {
+ extension AeroReferencePack {
 
     /// Global default physical constants for aerodynamic calculations.
     struct Defaults: Decodable {
@@ -104,12 +104,12 @@ public extension AeroReferencePack {
         ///
         /// Typically set to a standard sea-level value
         /// (e.g. 1.225 kg/m³) and assumed constant for the analysis.
-        public let rho: Double
+         let rho: Double
 
         /// Aerodynamic reference area used to scale coefficients into forces.
         ///
         /// Often corresponds to a representative frontal area.
-        public let areaRef: Double
+         let areaRef: Double
 
         private enum CodingKeys: String, CodingKey {
             case rho
@@ -120,7 +120,7 @@ public extension AeroReferencePack {
 
 // MARK: - Aerodynamic Configuration
 
-public extension AeroReferencePack {
+ extension AeroReferencePack {
 
     /// Represents a specific aerodynamic configuration.
     ///
@@ -131,23 +131,31 @@ public extension AeroReferencePack {
         /// Stable identifier for the configuration.
         ///
         /// Used internally for selection and persistence.
-        public let id: String
+         let id: String
 
         /// Human-readable configuration name.
         ///
         /// Displayed in the UI.
-        public let displayName: String
+         let displayName: String
 
         /// Baseline lift coefficient at zero yaw.
         ///
         /// Negative values represent downforce.
-        public let cl0: Double
+         let cl0: Double
 
         /// Baseline drag coefficient at zero yaw.
-        public let cd0: Double
+         let cd0: Double
 
         /// Yaw sensitivity model defining how coefficients vary with yaw.
-        public let yawModel: YawModel
+         let yawModel: YawModel
+        
+         init(id: String, displayName: String, cl0: Double, cd0: Double, yawModel: YawModel) {
+            self.id = id
+            self.displayName = displayName
+            self.cl0 = cl0
+            self.cd0 = cd0
+            self.yawModel = yawModel
+        }
 
         private enum CodingKeys: String, CodingKey {
             case id
@@ -161,7 +169,7 @@ public extension AeroReferencePack {
 
 // MARK: - Yaw Sensitivity Model
 
-public extension AeroReferencePack {
+ extension AeroReferencePack {
 
     /// Defines how aerodynamic coefficients change as a function of yaw.
     ///
@@ -173,7 +181,7 @@ public extension AeroReferencePack {
         ///
         /// Currently supported:
         /// - `"quadratic"`: coefficient varies with yaw²
-        public let type: String
+         let type: String
 
         /// Coefficient controlling drag increase with yaw squared.
         ///
@@ -181,7 +189,7 @@ public extension AeroReferencePack {
         /// ```
         /// CD = CD0 + kCdYaw2 * yaw²
         /// ```
-        public let kCdYaw2: Double
+         let kCdYaw2: Double
 
         /// Coefficient controlling lift/downforce change with yaw squared.
         ///
@@ -189,7 +197,7 @@ public extension AeroReferencePack {
         /// ```
         /// CL = CL0 + kClYaw2 * yaw²
         /// ```
-        public let kClYaw2: Double
+         let kClYaw2: Double
 
         private enum CodingKeys: String, CodingKey {
             case type

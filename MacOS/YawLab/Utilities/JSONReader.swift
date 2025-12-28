@@ -10,15 +10,15 @@ import Foundation
 /// A generic JSON reader that decodes any `Decodable` type from:
 /// - the app bundle
 /// - a file URL
-public final class JSONReader {
+ final class JSONReader {
 
     /// Errors that can occur while loading or decoding JSON.
-    public enum ReaderError: Error, LocalizedError {
+     enum ReaderError: Error, LocalizedError {
         case resourceNotFound(resource: String, ext: String, bundleID: String?)
         case dataReadFailed(url: URL, underlying: Error)
         case decodeFailed(type: Any.Type, underlying: Error)
 
-        public var errorDescription: String? {
+         var errorDescription: String? {
             switch self {
             case let .resourceNotFound(resource, ext, bundleID):
                 let bundleInfo = bundleID.map { " (bundle: \($0))" } ?? ""
@@ -35,7 +35,7 @@ public final class JSONReader {
 
     /// Create a reader with a configurable `JSONDecoder`.
     /// - Parameter decoder: Decoder used for decoding JSON into `Decodable` types.
-    public init(decoder: JSONDecoder = JSONDecoder()) {
+     init(decoder: JSONDecoder = JSONDecoder()) {
         self.decoder = decoder
     }
 
@@ -47,7 +47,7 @@ public final class JSONReader {
     ///   - ext: File extension (default: "json").
     ///   - bundle: Bundle to load from (default: `.main`).
     /// - Returns: Decoded instance of `T`.
-    public func loadFromBundle<T: Decodable>(
+     func loadFromBundle<T: Decodable>(
         _ type: T.Type,
         resource: String,
         ext: String = "json",
@@ -69,7 +69,7 @@ public final class JSONReader {
     ///   - type: The `Decodable` type to decode.
     ///   - url: URL pointing to the JSON file.
     /// - Returns: Decoded instance of `T`.
-    public func loadFromURL<T: Decodable>(
+     func loadFromURL<T: Decodable>(
         _ type: T.Type,
         url: URL
     ) throws -> T {

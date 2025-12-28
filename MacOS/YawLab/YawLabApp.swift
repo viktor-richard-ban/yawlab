@@ -23,6 +23,7 @@ struct YawLabApp: App {
             wind: 180
         )
         context.run = try? JSONReader().loadFromBundle(AeroReferencePack.self, resource: "AhmedDrivAer_ReferencePack")
+        context.config = context.run?.configs[0]
         #endif
     }
     
