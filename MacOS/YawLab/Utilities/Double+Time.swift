@@ -1,5 +1,5 @@
 //
-//  Double+utilities.swift
+//  Double+Time.swift
 //  YawLab
 //
 //  Created by Viktor Bán on 2025. 12. 25..

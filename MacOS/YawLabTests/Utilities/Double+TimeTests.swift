@@ -1,5 +1,5 @@
 //
-//  Double+utilitiesTests.swift
+//  Double+TimeTests.swift
 //  YawLab
 //
 //  Created by Viktor Bán on 2025. 12. 25..
