@@ -15,4 +15,5 @@ class Context {
     var session: String?
     var driver: String?
     var lap: Lap?
+    var run: AeroReferencePack?
 }

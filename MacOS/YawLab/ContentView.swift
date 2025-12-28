@@ -23,6 +23,7 @@ struct ContentView: View {
             positions: samplePositionsPoints,
             wind: 180
         )
+        self.context.run = try? JSONReader().loadFromBundle(AeroReferencePack.self, resource: "AhmedDrivAer_ReferencePack")
         #endif
     }
     
@@ -35,6 +36,8 @@ struct ContentView: View {
         } detail: {
             ScrollView {
                 VStack {
+                    Text(context.run!.name)
+                    
                     let lapTime = context.lap?.lapTime ?? 0.0
                     timeSeriesChartView(with: context.lap?.speedTelemetryPoints ?? [], yLabel: "Speed", lapTime: lapTime)
                     

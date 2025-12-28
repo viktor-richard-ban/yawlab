@@ -1,0 +1,52 @@
+{
+  "id": "ahmed-drivaer-pack-v1",
+  "name": "Ahmed/DrivAer Reference Pack (MVP)",
+  "source": {
+    "dataset": "Ahmed Body / DrivAer benchmark references",
+    "notes": "Coefficients anchored to benchmark ranges; yaw sensitivities are simplified for scenario analysis."
+  },
+  "units": {
+    "yaw": "deg",
+    "area": "m2",
+    "rho": "kg/m3"
+  },
+  "defaults": {
+    "rho": 1.225,
+    "area_ref": 2.2
+  },
+  "configs": [
+    {
+      "id": "baseline",
+      "display_name": "Baseline",
+      "cl0": -0.20,
+      "cd0": 0.30,
+      "yaw_model": {
+        "type": "quadratic",
+        "k_cd_yaw2": 0.0008,
+        "k_cl_yaw2": 0.0004
+      }
+    },
+    {
+      "id": "low_drag",
+      "display_name": "Low Drag",
+      "cl0": -0.15,
+      "cd0": 0.27,
+      "yaw_model": {
+        "type": "quadratic",
+        "k_cd_yaw2": 0.0007,
+        "k_cl_yaw2": 0.00035
+      }
+    },
+    {
+      "id": "high_downforce",
+      "display_name": "High Downforce",
+      "cl0": -0.35,
+      "cd0": 0.42,
+      "yaw_model": {
+        "type": "quadratic",
+        "k_cd_yaw2": 0.0011,
+        "k_cl_yaw2": 0.00055
+      }
+    }
+  ]
+}
