@@ -10,6 +10,19 @@ import SwiftUI
 @Observable
 class TimeSelection {
     var time: Double? // in seconds
+    var isFixed: Bool = false
+    
+    func setTimeIfNotFixed(_ time: Double?) {
+        if !isFixed {
+            self.time = time
+        }
+    }
+    
+    func resetIfNotFixed() {
+        if !isFixed {
+            time = nil
+        }
+    }
 }
 
 struct TimeSelectionKey: EnvironmentKey {

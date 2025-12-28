@@ -76,11 +76,16 @@ private struct TimeSeriesChart: View {
                 .onContinuousHover(perform: { phase in
                     switch phase {
                     case .active(let location):
-                        selectedTime.time = proxy.value(atX: location.x, as: Double.self)!.closestTime(in: points.map(\.time))
+                        let newTime = proxy.value(atX: location.x, as: Double.self)!.closestTime(in: points.map(\.time))
+                        selectedTime.setTimeIfNotFixed(newTime)
                     case .ended:
-                        selectedTime.time = nil
+                        selectedTime.resetIfNotFixed()
                     }
                 })
+        }
+        .onTapGesture {
+            selectedTime.isFixed.toggle()
+            selectedTime.resetIfNotFixed()
         }
     }
 }
