@@ -40,12 +40,8 @@ struct ContentView: View {
                     
                     let lapTime = context.lap?.lapTime ?? 0.0
                     timeSeriesChartView(with: context.lap?.speedTelemetryPoints ?? [], yLabel: "Speed", lapTime: lapTime)
-                    
                     timeSeriesChartView(with: context.lap?.throttleTelemetryPoints ?? [], yLabel: "Throttle", lapTime: lapTime)
-                    
                     timeSeriesChartView(with: context.lap?.brakeTelemetryPoints ?? [], yLabel: "Brake", lapTime: lapTime)
-                    
-                    timeSeriesChartView(with: context.lap?.directionTelemetryPoints ?? [], yLabel: "Direction (0 is the value calculated from the first 2 points)", lapTime: lapTime)
                     
                     DerivedDataView(context: $context)
                         .padding(.top, 32)
