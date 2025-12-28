@@ -53,7 +53,7 @@ struct DerivedDataView: View {
             )
             
             HStack(spacing: 8) {
-                DataView(title: "Yaw", value: yaw, unit: "degrees", info: "yaw = airflow direction − car direction\nNormalized to 0..180°")
+                DataView(title: "Yaw", value: yaw, unit: "degrees", info: "yaw = atan2(V_rel,y , V_rel,x) − heading")
                 DataView(title: "CD(t)", value: cdt, unit: "", info: "CD(t) = CD0 + k_cd_yaw2 * yaw(t)²")
                 DataView(title: "CL(t)", value: clt, unit: "", info: "CL(t) = CL0 + k_cl_yaw2 * yaw(t)²")
             }
