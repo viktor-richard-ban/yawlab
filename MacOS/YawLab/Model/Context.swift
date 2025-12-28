@@ -24,6 +24,7 @@ class Context {
         let headingDeg = lap.positions.directions()[timeIndex]
         let windToDeg = lap.wind
         let carSpeed = lap.speeds[timeIndex]
+        let windSpeed = lap.windSpeed
         
         let h = headingDeg.deg2rad()
         let w = windToDeg.deg2rad()
@@ -32,8 +33,8 @@ class Context {
         let vCarX = carSpeed * cos(h)
         let vCarY = carSpeed * sin(h)
         
-        let vWindX = lap.wind * cos(w)
-        let vWindY = lap.wind * sin(w)
+        let vWindX = windSpeed * cos(w)
+        let vWindY = windSpeed * sin(w)
         
         // Relative wind felt by the car
         let vRelX = vCarX - vWindX

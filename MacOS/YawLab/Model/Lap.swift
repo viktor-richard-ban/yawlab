@@ -18,6 +18,7 @@ struct Lap {
     /// Wind direction in degrees
     /// Blows towards the given direction
     let wind: Double
+    let windSpeed: Double
     
     // MARK: - Telemetry points
     var speedTelemetryPoints: [TelemetryPoint<Double>] {
