@@ -24,10 +24,7 @@ struct DerivedDataView: View {
             )
             
             HStack(spacing: 8) {
-                let wind = context.lap?.wind ?? 0.0
                 let yaw = context.lap?.yawTelemetryPoints.first(where: { $0.time == selectedTime.time })?.value ?? 0.0
-                
-                DataView(title: "Wind Direction", value: "\(wind)", unit: "degrees")
                 DataView(title: "Yaw", value: String(format: "%.2f", yaw), unit: "degrees", info: "yaw = airflow direction − car direction\nNormalized to 0..180°")
             }
         }
