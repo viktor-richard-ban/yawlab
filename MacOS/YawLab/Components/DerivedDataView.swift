@@ -29,7 +29,7 @@ struct DerivedDataView: View {
                 
                 TrackDataTile(title: "Wind Direction", value: "\(wind)", unit: "degrees")
                     .frame(width: 200)
-                TrackDataTile(title: "Yaw", value: String(format: "%.2f", yaw), unit: "degrees")
+                TrackDataTile(title: "Yaw", value: String(format: "%.2f", yaw), unit: "degrees", info: "yaw = airflow direction − car direction\nNormalized to 0..180°")
                     .frame(width: 200)
             }
         }

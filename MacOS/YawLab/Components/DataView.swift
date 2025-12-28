@@ -11,6 +11,17 @@ struct TrackDataTile: View {
     let title: String
     let value: String
     let unit: String
+    /// Extra information shown in a popup when tapping the info button.
+    let info: String?
+    @State private var showInfo = false
+    
+    init(title: String, value: String, unit: String, info: String? = nil) {
+        self.title = title
+        self.value = value
+        self.unit = unit
+        self.info = info
+        self.showInfo = showInfo
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -22,6 +33,30 @@ struct TrackDataTile: View {
                 Text(title)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                
+                if let info {
+                    Button {
+                        showInfo = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .foregroundStyle(.yellow)
+                    }
+                    .buttonStyle(.plain)
+                    .popover(isPresented: $showInfo, arrowEdge: .top) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(title)
+                                .font(.headline)
+                            
+                            Text(info)
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(16)
+                    }
+                }
             }
 
             HStack(alignment: .firstTextBaseline, spacing: 6) {
