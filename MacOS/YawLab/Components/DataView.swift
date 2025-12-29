@@ -11,14 +11,16 @@ struct DataView: View {
     let title: String
     let value: String?
     let unit: String
+    let tag: String?
     /// Extra information shown in a popup when tapping the info button.
     let info: String?
     @State private var showInfo = false
     
-    init(title: String, value: String?, unit: String, info: String? = nil) {
+    init(title: String, value: String?, unit: String, tag: String? = nil, info: String? = nil) {
         self.title = title
         self.value = value
         self.unit = unit
+        self.tag = tag
         self.info = info
         self.showInfo = showInfo
     }
@@ -30,7 +32,8 @@ struct DataView: View {
                     .fill(.yellow)
                     .frame(width: 8, height: 8)
 
-                Text(title)
+                let titleWithOptionalTag = tag == nil ? title : "\(title) (\(tag!))"
+                Text(titleWithOptionalTag)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 
