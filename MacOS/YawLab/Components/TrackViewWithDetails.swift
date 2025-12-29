@@ -38,8 +38,10 @@ struct TrackViewWithDetails: View {
                 .opacity(isHeadingHidden ? 0 : 1)
 
             
-            let wind = context.lap?.wind.formatted() ?? "NaN"
-            DataView(title: "Wind Direction", value: "\(wind)", unit: "degrees")
+            let windDirection = context.lap?.wind.formatted() ?? "NaN"
+            DataView(title: "Wind Direction", value: "\(windDirection)", unit: "degrees")
+            let windSpeed = context.lap?.windSpeed.formatted() ?? "NaN"
+            DataView(title: "Wind Speed", value: "\(windSpeed)", unit: "km/h")
         }
     }
 }

@@ -29,7 +29,7 @@ struct ContentView: View {
                     VStack {
                         HStack {
                             DataView(title: "Config", value: config.displayName, unit: "")
-                            DataView(title: "Time", value: selectedTime.time?.elapsedTime, unit: "")
+                            DataView(title: "Time", value: selectedTime.time?.elapsedTime, unit: "", tag: selectedTime.isFixed ? "Fixed" : nil)
                             Spacer()
                         }
                         .padding(8)
