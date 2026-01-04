@@ -21,9 +21,11 @@ struct DropdownSelect: View {
                 } label: {
                     Text(options[index])
                 }
+                .foregroundStyle(.white)
             }
         } label: {
             Label(text, systemImage: "chevron.down")
+                .foregroundStyle(.white)
                 .padding(8)
                 .background(Color.black.opacity(0.1))
                 .cornerRadius(8)

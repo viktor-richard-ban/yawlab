@@ -22,6 +22,7 @@ struct ContentView: View {
                 ContextSelector(context: $context)
                 Spacer()
             }
+            .background(Color(hex: "#0f1923"))
         } detail: {
             if let lap = context.lap, isContextAvailable,
                let config = context.config {

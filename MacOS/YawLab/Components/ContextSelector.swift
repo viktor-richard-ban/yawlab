@@ -16,6 +16,9 @@ struct ContextSelector: View {
     
     var body: some View {
         VStack {
+            ActiveModelView(version: "v2.4.1", airDensity: "1.225 kg/m³", regArea: "1.42 m²")
+                .padding(16)
+            
             DropdownSelect(
                 options: years,
                 text: Binding(
