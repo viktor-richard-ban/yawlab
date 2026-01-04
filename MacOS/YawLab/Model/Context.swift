@@ -18,13 +18,27 @@ class Context {
     var run: AeroReferencePack?
     var config: AeroReferencePack.Config?
     
+    /// Computes the aerodynamic yaw angle at a given time.
+    /// ## Definition
+    /// ```
+    /// v_air = v_car − v_wind
+    /// yaw   = angle(v_air) − heading
+    /// ```
+    ///
+    /// ## Units
+    /// - Car heading: **degrees** (0–360°, global reference)
+    /// - Wind direction: **degrees** (direction the wind is moving *towards*)
+    /// - Car speed: **km/h** (internally converted to m/s)
+    /// - Wind speed: **km/h** (internally converted to m/s)
+    /// - Returned yaw angle: **degrees**, wrapped to **[-180°, +180°]**
+    ///
     func yaw(at time: Double) -> Double? {
         guard let lap,
               let timeIndex = lap.speedTelemetryPoints.firstIndex(where: { $0.time == time }) else { return nil }
         let headingDeg = lap.positions.directions()[timeIndex]
         let windToDeg = lap.wind
-        let carSpeed = lap.speeds[timeIndex]
-        let windSpeed = lap.windSpeed
+        let carSpeed = lap.speeds[timeIndex].kphToMps()
+        let windSpeed = lap.windSpeed.kphToMps()
         
         let h = headingDeg.deg2rad()
         let w = windToDeg.deg2rad()
