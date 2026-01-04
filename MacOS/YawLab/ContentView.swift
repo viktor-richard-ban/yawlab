@@ -25,7 +25,7 @@ struct ContentView: View {
                     ActiveModelView(version: run.version, airDensity: airDensity, regArea: regArea)
                         .padding(16)
                 }
-                ContextSelector(context: $context)
+                // TODO: - Add ContextSelector
                 Spacer()
             }
             .background(Color(hex: "#0f1923"))
