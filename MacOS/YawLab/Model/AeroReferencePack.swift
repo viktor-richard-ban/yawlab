@@ -28,6 +28,10 @@ struct AeroReferencePack: Decodable {
 
     /// Human-readable name of the reference pack.
     let name: String
+    
+    /// Configuration version
+    /// Using semantic versioning
+    let version: String
 
     /// Source metadata describing where this reference data originates.
      let source: Source

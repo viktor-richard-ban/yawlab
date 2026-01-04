@@ -19,6 +19,12 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             VStack {
+                if let run = context.run {
+                    let airDensity = "\(run.defaults.rho) \(run.units.rho)"
+                    let regArea = "\(run.defaults.areaRef) \(run.units.area)"
+                    ActiveModelView(version: run.version, airDensity: airDensity, regArea: regArea)
+                        .padding(16)
+                }
                 ContextSelector(context: $context)
                 Spacer()
             }

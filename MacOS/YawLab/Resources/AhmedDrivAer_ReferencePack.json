@@ -1,6 +1,7 @@
 {
   "id": "ahmed-drivaer-pack-v1",
   "name": "Ahmed/DrivAer Reference Pack (MVP)",
+  "version": "v0.1.0",
   "source": {
     "dataset": "Ahmed Body / DrivAer benchmark references",
     "notes": "Coefficients anchored to benchmark ranges; yaw sensitivities are simplified for scenario analysis."
