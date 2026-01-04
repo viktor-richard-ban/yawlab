@@ -40,6 +40,28 @@ struct DerivedDataView: View {
         return String(format: "%.6f", clt)
     }
     
+    var q: String {
+        guard let time = selectedTime.time,
+              let rho = context.run?.defaults.rho,
+              let speed = context.lap?.speedTelemetryPoints.first(where: { $0.time == time })?.value else { return "NaN" }
+        let qValue = 0.5 * rho * pow(speed.kphToMps() ,2)
+        return String(format: "%.6f", qValue)
+    }
+    
+    var dragForce: String {
+        guard let time = selectedTime.time,
+              let rho = context.run?.defaults.rho,
+              let speed = context.lap?.speedTelemetryPoints.first(where: { $0.time == time })?.value,
+              let yawValue,
+              let cd0 = context.config?.cd0,
+              let k_cd_yaw2 = context.config?.yawModel.kCdYaw2,
+              let areaRef = context.run?.defaults.areaRef else { return "NaN" }
+        let qValue = 0.5 * rho * pow(speed.kphToMps() ,2)
+        let cdt = cd0 + k_cd_yaw2 * pow(yawValue, 2)
+        let drag = qValue * areaRef * cdt
+        return String(format: "%.6f", drag  )
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -52,11 +74,18 @@ struct DerivedDataView: View {
                     .fill(.primary.opacity(0.08))
             )
             
-            HStack(spacing: 8) {
+            LazyVGrid(
+                columns: [GridItem(.adaptive(minimum: 230, maximum: 230), spacing: 8)],
+                alignment: .leading,
+                spacing: 8
+            ) {
                 DataView(title: "Yaw", value: yaw, unit: "degrees", info: "yaw = atan2(V_rel,y , V_rel,x) − heading")
                 DataView(title: "CD(t)", value: cdt, unit: "", info: "CD(t) = CD0 + k_cd_yaw2 * yaw(t)²")
                 DataView(title: "CL(t)", value: clt, unit: "", info: "CL(t) = CL0 + k_cl_yaw2 * yaw(t)²")
+                DataView(title: "Dynamic pressure - q", value: q, unit: "Pa (N/m²)", info: "q = 0.5 * rho * speedMps²")
+                DataView(title: "Drag force - Drag(t)", value: dragForce, unit: "N", info: "Drag(t) = q(t) · A_ref · CD(t)")
             }
+            .padding()
         }
     }
 }
