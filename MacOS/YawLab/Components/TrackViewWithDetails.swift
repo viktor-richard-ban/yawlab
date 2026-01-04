@@ -30,18 +30,22 @@ struct TrackViewWithDetails: View {
             if let circuitPoints = context.lap?.positionsTelemetryPoints {
                 TrackView(points: circuitPoints)
                     .frame(width: 200, height: 200)
+                    .foregroundStyle(.white)
             }
             
             Image(systemName: "arrow.up")
+                .foregroundStyle(.white)
                 .font(.system(size: 48, weight: .bold))
                 .rotationEffect(.degrees(heading ?? 0))
                 .opacity(isHeadingHidden ? 0 : 1)
 
             
             let windDirection = context.lap?.wind.formatted() ?? "NaN"
-            DataView(title: "Wind Direction", value: "\(windDirection)", unit: "degrees")
+            DataView(title: "Wind Direction", value: "\(windDirection)", unit: "degrees", dark: true)
+                .padding(.horizontal, 8)
             let windSpeed = context.lap?.windSpeed.formatted() ?? "NaN"
-            DataView(title: "Wind Speed", value: "\(windSpeed)", unit: "km/h")
+            DataView(title: "Wind Speed", value: "\(windSpeed)", unit: "km/h", dark: true)
+                .padding(.horizontal, 8)
         }
     }
 }

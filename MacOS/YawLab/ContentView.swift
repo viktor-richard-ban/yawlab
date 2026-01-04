@@ -71,10 +71,15 @@ struct ContentView: View {
             }
         }
         .inspector(isPresented: $isShowingInspector, content: {
-            VStack {
-                TrackViewWithDetails(context: $context)
+            HStack {
+                Spacer()
+                VStack {
+                    TrackViewWithDetails(context: $context)
+                    Spacer()
+                }
                 Spacer()
             }
+            .background(Color(hex: "#0f1923"))
         })
         .environment(selectedTime)
     }
