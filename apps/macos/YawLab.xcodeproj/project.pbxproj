@@ -63,8 +63,8 @@
 			children = (
 				3A3270BA2EF8757600039563 /* YawLab */,
 				3A3270C82EF8757700039563 /* YawLabTests */,
-				3A3270B92EF8757600039563 /* Products */,
 				3A47ECAD2F13D94000FAD69D /* Libraries */,
+				3A3270B92EF8757600039563 /* Products */,
 				3A47EBB42F13D0A600FAD69D /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\ncd \"${SRCROOT}/../../packages/aero_core\"\nmake\n";
+			shellScript = "echo \"=== AeroCore: build has started ===\"\nset -e\ncd \"${SRCROOT}/../../packages/aero_core\"\nmake\necho \"=== AeroCore: build finished ===\"\n\necho \"=== AeroCore: Updating Obj-C bridge files ===\"\nDEST_DIR=\"${SRCROOT}/Libraries/AeroCore\"\nBINDINGS_DIR=\"${SRCROOT}/../../packages/aero_core/bindings\"\nFILES=(\n  \"AeroCoreBridge.h\"\n  \"AeroCoreBridge.mm\"\n)\n\nfor file in \"${FILES[@]}\"; do\n  SRC_FILE=\"${BINDINGS_DIR}/${file}\"\n  DEST_FILE=\"${DEST_DIR}/${file}\"\n\n  if [[ -f \"${SRC_FILE}\" ]]; then\n    echo \"Updating ${file}\"\n    cp -f \"${SRC_FILE}\" \"${DEST_FILE}\"\n  else\n    echo \"WARNING: Missing source file: ${SRC_FILE}\"\n  fi\ndone\n\necho \"=== AeroCore: Obj-C bridge update complete ===\"\necho \"=== AeroCore: Updating static library ===\"\n\nSTATIC_LIB_PATH=\"${SRCROOT}/../../packages/aero_core/build/libaero_core.a\"\nSTATIC_LIB_DEST=\"${SRCROOT}/Libraries/AeroCore/libaero_core.a\"\ncp -f \"${STATIC_LIB_PATH}\" \"${STATIC_LIB_DEST}\"\n\necho \"=== AeroCore: Finished updating static library ===\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -279,7 +279,7 @@
 				DEVELOPMENT_TEAM = 6SP8DWFZH2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -347,7 +347,7 @@
 				DEVELOPMENT_TEAM = 6SP8DWFZH2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
