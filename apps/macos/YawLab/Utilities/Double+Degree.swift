@@ -7,11 +7,11 @@
 
 extension Double {
     func deg2rad() -> Double {
-        self * .pi / 180.0
+        AeroCore.deg2rad(self)
     }
     
     func rad2deg() -> Double {
-        self * 180.0 / .pi
+        AeroCore.rad2deg(self)
     }
     
     func wrapTo180() -> Double {
