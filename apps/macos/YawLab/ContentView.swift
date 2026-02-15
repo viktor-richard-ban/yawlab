@@ -116,10 +116,10 @@ struct ContentView: View {
         TimeSeriesChartView(
             points1: primaryPoints,
             points2: secondaryPoints,
-            series1Label: context.lapLabel ?? "Lap A",
-            series2Label: context.comparisonLapLabel ?? "Lap B",
             yLabel: yLabel,
-            lapTime: lapTime
+            lapTime: lapTime,
+            series1Label: context.lapLabel ?? "Lap A",
+            series2Label: context.comparisonLapLabel ?? "Lap B"
         )
         .frame(height: 150)
         .padding(.horizontal, 16)

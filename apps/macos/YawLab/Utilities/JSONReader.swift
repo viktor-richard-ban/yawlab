@@ -87,21 +87,3 @@ import Foundation
         }
     }
 }
-
-struct LapMockDataLoader {
-    private let jsonReader: JSONReader
-
-    init(jsonReader: JSONReader = JSONReader()) {
-        self.jsonReader = jsonReader
-    }
-
-    func loadLap(resource: String, bundle: Bundle = .main) throws -> Lap {
-        let lapAPIModel = try jsonReader.loadFromBundle(
-            LapAPIModel.self,
-            resource: resource,
-            bundle: bundle
-        )
-
-        return lapAPIModel.toDomain()
-    }
-}

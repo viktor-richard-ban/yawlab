@@ -13,12 +13,11 @@ struct YawLabApp: App {
     
     init() {
         #if DEBUG
-        let dataLoader = LapMockDataLoader()
-        let qualifyingLap = try? dataLoader.loadLap(resource: "MockLap2025AbuDhabiQFastestLap")
-        let raceLap = try? dataLoader.loadLap(resource: "MockLap2025AbuDhabiRFastestLap")
+        let qualifyingLap = try? JSONReader().loadFromBundle(LapAPIModel.self, resource: "MockLap2025AbuDhabiQFastestLap")
+        let raceLap = try? JSONReader().loadFromBundle(LapAPIModel.self, resource: "MockLap2025AbuDhabiRFastestLap")
 
-        context.lap = raceLap
-        context.comparisonLap = qualifyingLap
+        context.lap = raceLap?.toDomain()
+        context.comparisonLap = qualifyingLap?.toDomain()
         context.lapLabel = "LEC R"
         context.comparisonLapLabel = "VER Q"
 

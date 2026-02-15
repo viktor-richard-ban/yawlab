@@ -50,15 +50,15 @@ private struct TimeSeriesChart: View {
     @Environment(\.selectedTime) var selectedTime: TimeSelection
     @Environment(\.theme) var theme
     
-    private var annotation: String {
-        var text: String = ""
-        if let telemetryPoint1 = points1.first(where: { $0.time == selectedTime.time}),
-           let telemetryPoint2 = points2.first(where: { $0.time == selectedTime.time}) {
-            text = "\(series1Label): \(telemetryPoint1.value)\n\(series2Label): \(telemetryPoint2.value)"
-        } else if let telemetryPoint1 = points1.first(where: { $0.time == selectedTime.time}) {
-            text = "\(series1Label): \(telemetryPoint1.value)"
-        }
-        return text
+    private var annotation1: String {
+        guard let closestTime = selectedTime.time?.closestTime(in: points1.map(\.time)),
+              let telemetryPoint1 = points1.first(where: { $0.time == closestTime }) else { return "" }
+        return "\(series1Label): \(telemetryPoint1.value)"
+    }
+    private var annotation2: String? {
+        guard let closestTime = selectedTime.time?.closestTime(in: points2.map(\.time)),
+              let telemetryPoint2 = points2.first(where: { $0.time == closestTime }) else { return nil }
+        return "\(series2Label): \(telemetryPoint2.value)"
     }
 
     var body: some View {
@@ -81,9 +81,16 @@ private struct TimeSeriesChart: View {
                 RuleMark(x: .value("Time", selectedTime))
                     .foregroundStyle(theme.colors.primaryAccent)
                     .annotation {
-                        Text(annotation)
-                            .font(theme.typography.microLabel)
-                            .foregroundStyle(theme.colors.textPrimary)
+                        VStack {
+                            Text(annotation1)
+                                .font(theme.typography.microLabel)
+                                .foregroundStyle(theme.colors.textPrimary)
+                            if let annotation2 {
+                                Text(annotation2)
+                                    .font(theme.typography.microLabel)
+                                    .foregroundStyle(theme.colors.textPrimary)
+                            }
+                        }
                     }
             }
         }
