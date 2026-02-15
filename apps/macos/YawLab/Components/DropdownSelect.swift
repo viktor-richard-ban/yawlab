@@ -11,6 +11,7 @@ struct DropdownSelect: View {
     let options: [String]
     @Binding var text: String
     var didSelectOption: (String) -> Void
+    @Environment(\.theme) var theme
     
     var body: some View {
         Menu {
@@ -20,14 +21,16 @@ struct DropdownSelect: View {
                     didSelectOption(options[index])
                 } label: {
                     Text(options[index])
+                        .font(theme.typography.label)
                 }
-                .foregroundStyle(.white)
+                .foregroundStyle(theme.colors.textPrimary)
             }
         } label: {
             Label(text, systemImage: "chevron.down")
-                .foregroundStyle(.white)
+                .font(theme.typography.label)
+                .foregroundStyle(theme.colors.textPrimary)
                 .padding(8)
-                .background(Color.black.opacity(0.1))
+                .background(theme.colors.panel)
                 .cornerRadius(8)
         }
         .menuStyle(.button)

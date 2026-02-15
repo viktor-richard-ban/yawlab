@@ -10,6 +10,7 @@ import SwiftUI
 struct TrackViewWithDetails: View {
     @Binding var context: Context
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.theme) var theme
     
     var heading: Double? {
         if let selectedTime = selectedTime.time,
@@ -30,21 +31,21 @@ struct TrackViewWithDetails: View {
             if let circuitPoints = context.lap?.positionsTelemetryPoints {
                 TrackView(points: circuitPoints)
                     .frame(width: 200, height: 200)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(theme.colors.textPrimary)
             }
             
             Image(systemName: "arrow.up")
-                .foregroundStyle(.white)
+                .foregroundStyle(theme.colors.textPrimary)
                 .font(.system(size: 48, weight: .bold))
                 .rotationEffect(.degrees(heading ?? 0))
                 .opacity(isHeadingHidden ? 0 : 1)
 
             
             let windDirection = context.lap?.wind.formatted() ?? "NaN"
-            DataView(title: "Wind Direction", value: "\(windDirection)", unit: "degrees", dark: true)
+            DataView(title: "Wind Direction", value: "\(windDirection)", unit: "degrees")
                 .padding(.horizontal, 8)
             let windSpeed = context.lap?.windSpeed.formatted() ?? "NaN"
-            DataView(title: "Wind Speed", value: "\(windSpeed)", unit: "km/h", dark: true)
+            DataView(title: "Wind Speed", value: "\(windSpeed)", unit: "km/h")
                 .padding(.horizontal, 8)
         }
     }

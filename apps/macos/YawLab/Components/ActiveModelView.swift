@@ -11,47 +11,53 @@ struct ActiveModelView: View {
     let version: String
     let airDensity: String // "1.225 kg/m³"
     let regArea: String // "1.42 m²"
-    
+
+    @Environment(\.theme) var theme
+
     var body: some View {
         VStack(spacing: 4) {
             HStack {
                 Text("ACTIVE MODEL")
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color(hex: "#359EFF"))
+                    .font(theme.typography.sectionHeader)
+                    .foregroundStyle(theme.colors.primaryAccent)
                 Spacer()
                 Text(version)
+                    .font(theme.typography.label)
                     .padding(4)
-                    .foregroundStyle(Color(hex: "#359EFF"))
-                    .background(Color(red: 0.168, green: 0.259, blue: 0.338))
+                    .foregroundStyle(theme.colors.primaryAccent)
+                    .background(theme.colors.card)
                     .clipShape(
                         RoundedRectangle(cornerRadius: 6, style: .continuous)
                     )
-                    
             }
-            
+
             HStack {
                 VStack(alignment: .leading) {
                     Text("Air Denisity")
-                        .foregroundStyle(.gray)
+                        .font(theme.typography.label)
+                        .foregroundStyle(theme.colors.textSecondary)
                     Text(airDensity)
-                        .foregroundStyle(.white)
+                        .font(theme.typography.secondaryDataValue)
+                        .foregroundStyle(theme.colors.textPrimary)
                 }
                 Spacer()
                 VStack(alignment: .leading) {
                     Text("Reg Area")
-                        .foregroundStyle(.gray)
+                        .font(theme.typography.label)
+                        .foregroundStyle(theme.colors.textSecondary)
                     Text(regArea)
-                        .foregroundStyle(.white)
+                        .font(theme.typography.secondaryDataValue)
+                        .foregroundStyle(theme.colors.textPrimary)
                 }
                 Spacer()
             }
         }
         .padding()
-        .background(Color(hex: "#162128"))
+        .background(theme.colors.panel)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(Color(hex: "#233c48"), lineWidth: 2)
+                .stroke(theme.colors.border, lineWidth: 2)
         )
     }
 }

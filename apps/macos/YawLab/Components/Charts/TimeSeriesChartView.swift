@@ -40,20 +40,24 @@ private struct TimeSeriesChart: View {
     let maxValue: Double
     
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.theme) var theme
 
     var body: some View {
         Chart {
             LineSeries(
                 points: points,
                 xLabel: xLabel,
-                yLabel: yLabel
+                yLabel: yLabel,
+                lineColor: theme.colors.secondaryAccent
             )
             if let selectedTime = selectedTime.time {
                 RuleMark(x: .value("Time", selectedTime))
-                    .foregroundStyle(.red)
+                    .foregroundStyle(theme.colors.primaryAccent)
                     .annotation {
                         if let telemetryPoint = points.first(where: { $0.time == selectedTime}) {
                             Text("\(telemetryPoint.value)")
+                                .font(theme.typography.microLabel)
+                                .foregroundStyle(theme.colors.textPrimary)
                         }
                     }
             }
@@ -94,6 +98,7 @@ private struct LineSeries: ChartContent {
     let points: [TelemetryPoint<Double>]
     let xLabel: String
     let yLabel: String
+    let lineColor: Color
 
     var body: some ChartContent {
         ForEach(points) { p in
@@ -101,6 +106,8 @@ private struct LineSeries: ChartContent {
                 x: .value(xLabel, p.time),
                 y: .value(yLabel, p.value)
             )
+            .foregroundStyle(lineColor)
+
         }
     }
 }
