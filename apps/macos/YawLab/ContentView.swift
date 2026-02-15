@@ -93,7 +93,14 @@ struct ContentView: View {
     
     @ViewBuilder
     private func timeSeriesChartView(with points: [TelemetryPoint<Double>], yLabel: String, lapTime: Double) -> some View {
-        TimeSeriesChartView(points: points, yLabel: yLabel, lapTime: lapTime)
+        TimeSeriesChartView(
+            points1: points,
+            points2: points.map {
+                TelemetryPoint(time: $0.time, value: $0.value * 0.8)
+            },
+            yLabel: yLabel,
+            lapTime: lapTime
+        )
             .frame(height: 150)
             .padding(.horizontal, 16)
     }
