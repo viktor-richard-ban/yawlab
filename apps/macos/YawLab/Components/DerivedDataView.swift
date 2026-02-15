@@ -10,6 +10,7 @@ import SwiftUI
 struct DerivedDataView: View {
     @Binding var context: Context
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.theme) var theme
     
     var yawValue: Double? {
         guard let time = selectedTime.time else { return nil }
@@ -80,12 +81,14 @@ struct DerivedDataView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Derived data")
+                    .font(theme.typography.sectionHeader)
+                    .foregroundStyle(theme.colors.textPrimary)
                 Spacer()
             }
             .padding(8)
             .background(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(.primary.opacity(0.08))
+                    .fill(theme.colors.panel)
             )
             
             LazyVGrid(

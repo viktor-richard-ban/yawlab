@@ -11,6 +11,7 @@ struct ContentView: View {
     @State var context: Context
     @State private var isShowingInspector = false
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.theme) var theme
     
     var isContextAvailable: Bool {
         return context.lap != nil
@@ -18,7 +19,13 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            VStack {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("YawLab")
+                    .font(theme.typography.appTitle)
+                    .foregroundStyle(theme.colors.textPrimary)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+
                 if let run = context.run {
                     let airDensity = "\(run.defaults.rho) \(run.units.rho)"
                     let regArea = "\(run.defaults.areaRef) \(run.units.area)"
@@ -28,7 +35,8 @@ struct ContentView: View {
                 // TODO: - Add ContextSelector
                 Spacer()
             }
-            .background(Color(hex: "#0f1923"))
+            .background(theme.colors.background)
+            .foregroundStyle(theme.colors.textPrimary)
         } detail: {
             if let lap = context.lap, isContextAvailable,
                let config = context.config {
@@ -51,6 +59,8 @@ struct ContentView: View {
                             .padding(.horizontal, 16)
                     }
                 }
+                .padding(.vertical, 8)
+                .background(theme.colors.background)
             } else {
                 contentUnavailableView()
             }
@@ -79,7 +89,7 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            .background(Color(hex: "#0f1923"))
+            .background(theme.colors.background)
         })
         .environment(selectedTime)
     }

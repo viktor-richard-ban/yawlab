@@ -38,6 +38,11 @@
 			path = Libraries;
 			sourceTree = "<group>";
 		};
+		9B5010010000000000000001 /* DesignSystem */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ../../DesignSystem;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +69,7 @@
 				3A3270BA2EF8757600039563 /* YawLab */,
 				3A3270C82EF8757700039563 /* YawLabTests */,
 				3A47ECAD2F13D94000FAD69D /* Libraries */,
+				9B5010010000000000000001 /* DesignSystem */,
 				3A3270B92EF8757600039563 /* Products */,
 				3A47EBB42F13D0A600FAD69D /* Frameworks */,
 			);
@@ -105,6 +111,7 @@
 			fileSystemSynchronizedGroups = (
 				3A3270BA2EF8757600039563 /* YawLab */,
 				3A47ECAD2F13D94000FAD69D /* Libraries */,
+				9B5010010000000000000001 /* DesignSystem */,
 			);
 			name = YawLab;
 			packageProductDependencies = (
