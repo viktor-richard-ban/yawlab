@@ -40,26 +40,43 @@ private struct TimeSeriesChart: View {
     let maxValue: Double
     
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.appTheme) private var appTheme
+
+    private var seriesColor: Color {
+        switch yLabel {
+        case "Speed":
+            return appTheme.designSystem.colors.accent.primary
+        case "Throttle":
+            return appTheme.designSystem.colors.accent.secondary
+        case "Brake":
+            return appTheme.designSystem.colors.accent.tertiary
+        default:
+            return appTheme.designSystem.colors.accent.primary
+        }
+    }
 
     var body: some View {
         Chart {
             LineSeries(
                 points: points,
                 xLabel: xLabel,
-                yLabel: yLabel
+                yLabel: yLabel,
+                color: seriesColor
             )
             if let selectedTime = selectedTime.time {
                 RuleMark(x: .value("Time", selectedTime))
-                    .foregroundStyle(.red)
+                    .foregroundStyle(appTheme.designSystem.colors.state.danger)
                     .annotation {
                         if let telemetryPoint = points.first(where: { $0.time == selectedTime}) {
                             Text("\(telemetryPoint.value)")
+                                .foregroundStyle(appTheme.designSystem.colors.text.primary)
                         }
                     }
             }
         }
-        .chartXAxisLabel(xLabel)
+        .chartXAxisLabel(xLabel, position: .bottom, alignment: .center)
         .chartYAxisLabel(yLabel)
+        .foregroundStyle(appTheme.designSystem.colors.text.secondary)
         .chartXScale(domain: 0...maxTime)
         .chartYScale(domain: minValue...maxValue)
         .chartXAxis {
@@ -94,6 +111,7 @@ private struct LineSeries: ChartContent {
     let points: [TelemetryPoint<Double>]
     let xLabel: String
     let yLabel: String
+    let color: Color
 
     var body: some ChartContent {
         ForEach(points) { p in
@@ -101,6 +119,8 @@ private struct LineSeries: ChartContent {
                 x: .value(xLabel, p.time),
                 y: .value(yLabel, p.value)
             )
+            .interpolationMethod(.catmullRom)
+            .foregroundStyle(color)
         }
     }
 }

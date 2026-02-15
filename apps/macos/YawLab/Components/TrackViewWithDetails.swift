@@ -10,6 +10,7 @@ import SwiftUI
 struct TrackViewWithDetails: View {
     @Binding var context: Context
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.appTheme) private var appTheme
     
     var heading: Double? {
         if let selectedTime = selectedTime.time,
@@ -30,11 +31,11 @@ struct TrackViewWithDetails: View {
             if let circuitPoints = context.lap?.positionsTelemetryPoints {
                 TrackView(points: circuitPoints)
                     .frame(width: 200, height: 200)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(appTheme.designSystem.colors.text.primary)
             }
             
             Image(systemName: "arrow.up")
-                .foregroundStyle(.white)
+                .foregroundStyle(appTheme.designSystem.colors.text.primary)
                 .font(.system(size: 48, weight: .bold))
                 .rotationEffect(.degrees(heading ?? 0))
                 .opacity(isHeadingHidden ? 0 : 1)

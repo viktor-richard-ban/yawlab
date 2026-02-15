@@ -15,19 +15,20 @@ struct TrackView: View {
     }
     
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.appTheme) private var appTheme
 
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 // Track
                 makeTrackPath(points: pointValues, in: CGRect(origin: .zero, size: geo.size))
-                    .stroke(.primary, style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
+                    .stroke(appTheme.designSystem.colors.text.secondary, style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
                 
                 if let selectedTime = selectedTime.time,
                    let telemetryPoint = points.first(where: { $0.time == selectedTime }) {
                     // Car
                     Circle()
-                        .fill(Color.red)
+                        .fill(appTheme.designSystem.colors.state.danger)
                         .frame(width: 10, height: 10)
                         .position(
                             mapPoint(

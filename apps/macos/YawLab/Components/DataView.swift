@@ -16,6 +16,7 @@ struct DataView: View {
     let info: String?
     let dark: Bool
     @State private var showInfo = false
+    @Environment(\.appTheme) private var appTheme
     
     init(title: String, value: String?, unit: String, tag: String? = nil, info: String? = nil, dark: Bool = false) {
         self.title = title
@@ -27,15 +28,19 @@ struct DataView: View {
     }
 
     var body: some View {
+        let textPrimary = appTheme.designSystem.colors.text.primary
+        let textSecondary = dark ? appTheme.designSystem.colors.text.secondary : appTheme.designSystem.colors.text.muted
+        let borderColor = dark ? appTheme.designSystem.colors.background.borderSubtle : appTheme.designSystem.colors.background.borderSubtle.opacity(0.7)
+
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 8) {
                 Circle()
-                    .fill(Color(hex: "#eab308"))
+                    .fill(appTheme.designSystem.colors.accent.tertiary)
                     .frame(width: 8, height: 8)
 
                 let titleWithOptionalTag = tag == nil ? title : "\(title) (\(tag!))"
                 Text(titleWithOptionalTag)
-                    .foregroundStyle(dark ? .white : .black)
+                    .foregroundStyle(textSecondary)
                     .font(.subheadline)
                 
                 Spacer()
@@ -45,20 +50,21 @@ struct DataView: View {
                         showInfo = true
                     } label: {
                         Image(systemName: "info.circle")
-                            .foregroundStyle(Color(hex: "#eab308"))
+                            .foregroundStyle(appTheme.designSystem.colors.accent.tertiary)
                     }
                     .buttonStyle(.plain)
                     .popover(isPresented: $showInfo, arrowEdge: .top) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(title)
                                 .font(.headline)
-                                .foregroundStyle(dark ? .white : .black)
+                                .foregroundStyle(textPrimary)
                             
                             Text(info)
                                 .font(.body)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(textSecondary)
                         }
                         .padding(16)
+                        .background(appTheme.designSystem.colors.background.panel)
                     }
                 }
             }
@@ -69,20 +75,33 @@ struct DataView: View {
                     .font(.system(size: 20, weight: .semibold, design: .rounded))
                     .minimumScaleFactor(0.3)
                     .monospacedDigit()
-                    .foregroundStyle(dark ? .white : .black)
+                    .foregroundStyle(textPrimary)
 
                 Text(unit)
                     .font(.system(size: 12, weight: .semibold, design: .rounded))
-                    .foregroundStyle(dark ? .white : .secondary)
+                    .foregroundStyle(textSecondary)
                 
                 Spacer()
             }
         }
         .frame(width: 200)
         .padding(16)
+        .background(
+            LinearGradient(
+                colors: [
+                    appTheme.designSystem.colors.background.cardTop,
+                    appTheme.designSystem.colors.background.cardBottom
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        // Before: white/primary strokes. After: semantic subtle-border token.
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .strokeBorder(dark ? .white : .primary.opacity(0.08))
+                .strokeBorder(borderColor)
         )
+        .shadow(color: DSShadow.card, radius: 8, x: 0, y: 4)
     }
 }

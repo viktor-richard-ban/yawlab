@@ -11,6 +11,7 @@ struct ContentView: View {
     @State var context: Context
     @State private var isShowingInspector = false
     @Environment(\.selectedTime) var selectedTime: TimeSelection
+    @Environment(\.appTheme) private var appTheme
     
     var isContextAvailable: Bool {
         return context.lap != nil
@@ -19,6 +20,15 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             VStack {
+                HStack {
+                    Text("Session Overview")
+                        .font(.headline)
+                        .foregroundStyle(appTheme.designSystem.colors.text.secondary)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+
                 if let run = context.run {
                     let airDensity = "\(run.defaults.rho) \(run.units.rho)"
                     let regArea = "\(run.defaults.areaRef) \(run.units.area)"
@@ -28,7 +38,7 @@ struct ContentView: View {
                 // TODO: - Add ContextSelector
                 Spacer()
             }
-            .background(Color(hex: "#0f1923"))
+            .background(appTheme.designSystem.colors.background.panel)
         } detail: {
             if let lap = context.lap, isContextAvailable,
                let config = context.config {
@@ -79,8 +89,10 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            .background(Color(hex: "#0f1923"))
+            .background(appTheme.designSystem.colors.background.app)
         })
+        .background(appTheme.designSystem.colors.background.app)
+        .toolbarBackground(.regularMaterial, for: .windowToolbar)
         .environment(selectedTime)
     }
     
