@@ -22,33 +22,9 @@
 		3A47EBBC2F13D5AF00FAD69D /* libaero_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libaero_core.a; path = ../../packages/aero_core/build/libaero_core.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3A371DE02F41F8CB0060E6DC /* Exceptions for "YawLab" folder in "YawLab" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Resources/Mock/Lap/MockLap2025AbuDhabiQFastestLap.json,
-			);
-			target = 3A3270B72EF8757500039563 /* YawLab */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		3A371DE12F41F8CB0060E6DC /* Exceptions for "YawLab" folder in "Compile Sources" phase from "YawLab" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 3A3270B42EF8757500039563 /* Sources */;
-			membershipExceptions = (
-				Resources/Mock/Lap/MockLap2025AbuDhabiQFastestLap.json,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3A3270BA2EF8757600039563 /* YawLab */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3A371DE02F41F8CB0060E6DC /* Exceptions for "YawLab" folder in "YawLab" target */,
-				3A371DE12F41F8CB0060E6DC /* Exceptions for "YawLab" folder in "Compile Sources" phase from "YawLab" target */,
-			);
 			path = YawLab;
 			sourceTree = "<group>";
 		};

@@ -13,16 +13,14 @@ struct YawLabApp: App {
     
     init() {
         #if DEBUG
-        context.lap = Lap(
-            lapTime: 86.725,
-            times: sampleTimes,
-            speeds: sampleSpeeds,
-            throttles: sampleThrottles,
-            brakes: sampleBrakes,
-            positions: samplePositionsPoints,
-            wind: 180,
-            windSpeed: 20
-        )
+        let qualifyingLap = try? JSONReader().loadFromBundle(LapAPIModel.self, resource: "MockLap2025AbuDhabiQFastestLap")
+        let raceLap = try? JSONReader().loadFromBundle(LapAPIModel.self, resource: "MockLap2025AbuDhabiRFastestLap")
+
+        context.lap = raceLap?.toDomain()
+        context.comparisonLap = qualifyingLap?.toDomain()
+        context.lapLabel = "LEC R"
+        context.comparisonLapLabel = "VER Q"
+
         context.run = try? JSONReader().loadFromBundle(AeroReferencePack.self, resource: "AhmedDrivAer_ReferencePack")
         context.config = context.run?.configs[0]
         #endif

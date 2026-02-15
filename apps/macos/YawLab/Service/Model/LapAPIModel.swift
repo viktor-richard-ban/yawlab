@@ -10,12 +10,17 @@ struct LapAPIModel: Decodable {
     let event: String
     let session: String
     let driver: String
-    let laptime: Double
+    let lapTime: Double
     let speed: [Double]
     let throttle: [Double]
-    let brake: [Double]
-    let position: [Position]
+    let brake: [Bool]
+    let position: Position
     let time: [Double]
+
+    enum CodingKeys: String, CodingKey {
+        case year, event, session, driver, speed, throttle, brake, position, time
+        case lapTime = "lap_time"
+    }
     
     struct Position: Decodable {
         let x: [Double]

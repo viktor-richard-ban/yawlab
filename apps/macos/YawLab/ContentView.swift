@@ -43,10 +43,25 @@ struct ContentView: View {
                         }
                         .padding(8)
                         
-                        let lapTime = lap.lapTime
-                        timeSeriesChartView(with: lap.speedTelemetryPoints, yLabel: "Speed", lapTime: lapTime)
-                        timeSeriesChartView(with: lap.throttleTelemetryPoints, yLabel: "Throttle", lapTime: lapTime)
-                        timeSeriesChartView(with: lap.brakeTelemetryPoints, yLabel: "Brake", lapTime: lapTime)
+                        let lapTime = max(lap.lapTime, context.comparisonLap?.lapTime ?? lap.lapTime)
+                        timeSeriesChartView(
+                            primaryPoints: lap.speedTelemetryPoints,
+                            secondaryPoints: context.comparisonLap?.speedTelemetryPoints ?? [],
+                            yLabel: "Speed",
+                            lapTime: lapTime
+                        )
+                        timeSeriesChartView(
+                            primaryPoints: lap.throttleTelemetryPoints,
+                            secondaryPoints: context.comparisonLap?.throttleTelemetryPoints ?? [],
+                            yLabel: "Throttle",
+                            lapTime: lapTime
+                        )
+                        timeSeriesChartView(
+                            primaryPoints: lap.brakeTelemetryPoints,
+                            secondaryPoints: context.comparisonLap?.brakeTelemetryPoints ?? [],
+                            yLabel: "Brake",
+                            lapTime: lapTime
+                        )
                         
                         DerivedDataView(context: $context)
                             .padding(.top, 32)
@@ -92,17 +107,22 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    private func timeSeriesChartView(with points: [TelemetryPoint<Double>], yLabel: String, lapTime: Double) -> some View {
+    private func timeSeriesChartView(
+        primaryPoints: [TelemetryPoint<Double>],
+        secondaryPoints: [TelemetryPoint<Double>],
+        yLabel: String,
+        lapTime: Double
+    ) -> some View {
         TimeSeriesChartView(
-            points1: points,
-            points2: points.map {
-                TelemetryPoint(time: $0.time, value: $0.value * 0.8)
-            },
+            points1: primaryPoints,
+            points2: secondaryPoints,
             yLabel: yLabel,
-            lapTime: lapTime
+            lapTime: lapTime,
+            series1Label: context.lapLabel ?? "Lap A",
+            series2Label: context.comparisonLapLabel ?? "Lap B"
         )
-            .frame(height: 150)
-            .padding(.horizontal, 16)
+        .frame(height: 150)
+        .padding(.horizontal, 16)
     }
     
     @ViewBuilder
