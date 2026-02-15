@@ -31,7 +31,6 @@ struct YawLabApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(context: context)
-                .environment(\.theme, .dark)
         }
     }
 }

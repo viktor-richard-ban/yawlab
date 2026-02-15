@@ -37,7 +37,7 @@ struct ActiveModelView: View {
                         .font(theme.typography.label)
                         .foregroundStyle(theme.colors.textSecondary)
                     Text(airDensity)
-                        .font(theme.typography.dataValue)
+                        .font(theme.typography.secondaryDataValue)
                         .foregroundStyle(theme.colors.textPrimary)
                 }
                 Spacer()
@@ -46,7 +46,7 @@ struct ActiveModelView: View {
                         .font(theme.typography.label)
                         .foregroundStyle(theme.colors.textSecondary)
                     Text(regArea)
-                        .font(theme.typography.dataValue)
+                        .font(theme.typography.secondaryDataValue)
                         .foregroundStyle(theme.colors.textPrimary)
                 }
                 Spacer()

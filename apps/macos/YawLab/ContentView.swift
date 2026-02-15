@@ -19,13 +19,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationSplitView {
-            VStack(alignment: .leading, spacing: 12) {
-                Text("YawLab")
-                    .font(theme.typography.appTitle)
-                    .foregroundStyle(theme.colors.textPrimary)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 16)
-
+            VStack {
                 if let run = context.run {
                     let airDensity = "\(run.defaults.rho) \(run.units.rho)"
                     let regArea = "\(run.defaults.areaRef) \(run.units.area)"
@@ -80,6 +74,8 @@ struct ContentView: View {
                 }
             }
         }
+        .toolbarBackground(theme.colors.primaryAccent)
+        .toolbarColorScheme(.light)
         .inspector(isPresented: $isShowingInspector, content: {
             HStack {
                 Spacer()
@@ -89,6 +85,7 @@ struct ContentView: View {
                 }
                 Spacer()
             }
+            .padding(.vertical, 16)
             .background(theme.colors.background)
         })
         .environment(selectedTime)

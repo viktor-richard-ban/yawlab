@@ -66,7 +66,7 @@ struct DataView: View {
             HStack(spacing: 6) {
                 Text(value ?? "NaN")
                     .lineLimit(1)
-                    .font(theme.typography.dataValue)
+                    .font(theme.typography.primaryDataValue)
                     .minimumScaleFactor(0.3)
                     .monospacedDigit()
                     .foregroundStyle(theme.colors.textPrimary)
