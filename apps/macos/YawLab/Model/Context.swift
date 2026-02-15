@@ -15,6 +15,9 @@ class Context {
     var session: String?
     var driver: String?
     var lap: Lap?
+    var comparisonLap: Lap?
+    var lapLabel: String?
+    var comparisonLapLabel: String?
     var run: AeroReferencePack?
     var config: AeroReferencePack.Config?
     
